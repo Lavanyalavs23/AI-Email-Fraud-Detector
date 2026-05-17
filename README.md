@@ -22,7 +22,7 @@ A Machine Learning-based web application that detects whether an email/message i
 
 ## 🌐 Live Demo
 
-Deployed using Hugging Face Spaces
+https://huggingface.co/spaces/lavanyalavs/spam-email-detector
 
 ## 📊 Example Output
 
