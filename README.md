@@ -31,4 +31,9 @@ https://huggingface.co/spaces/lavanyalavs/spam-email-detector
 
 ## 👩‍💻 Developer
 
-Lavanya
+Lavanya  
+## 📸 Project Screenshots
+
+screensho.png
+screenshot.png
+screenshot2.png
