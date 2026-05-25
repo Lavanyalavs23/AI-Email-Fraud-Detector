@@ -12,8 +12,9 @@ cv = pickle.load(open("vectorizer.pkl", "rb"))
 history = []
 
 # ---------------- LOGIN FUNCTION ----------------
+# ---------------- LOGIN FUNCTION ----------------
 def login(user, pwd):
-    if user == "admin" and pwd == "admin":
+    if user == "lavanya" and pwd == "2318":
         return (
             "✅ Login Successful",
             gr.update(visible=False),
@@ -25,6 +26,7 @@ def login(user, pwd):
         gr.update(visible=True),
         gr.update(visible=False)
     )
+
 
 # ---------------- PREDICTION FUNCTION ----------------
 def predict_message(msg):
@@ -50,7 +52,6 @@ def predict_message(msg):
         badge = "🟢 SAFE"
         emoji = "😊✅"
 
-    # Save history
     history.append({
         "Time": time,
         "Message": msg,
@@ -65,6 +66,7 @@ def predict_message(msg):
         f"Spam: {spam_prob:.2f}% | Safe: {ham_prob:.2f}%"
     )
 
+
 # ---------------- DOWNLOAD HISTORY ----------------
 def download_history():
 
@@ -75,6 +77,7 @@ def download_history():
     df.to_csv(file_path, index=False)
 
     return file_path
+
 
 # ---------------- CHART FUNCTION ----------------
 def chart():
@@ -91,13 +94,17 @@ def chart():
 
     plt.figure(figsize=(5, 4))
 
-    plt.bar(["Spam", "Safe"], [spam, ham])
+    plt.bar(
+        ["Spam", "Safe"],
+        [spam, ham]
+    )
 
     plt.title("Spam vs Safe Emails")
 
     plt.savefig("chart.png")
 
     return "chart.png"
+
 
 # ---------------- UI ----------------
 with gr.Blocks(theme=gr.themes.Soft()) as app:
@@ -110,81 +117,154 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
         ### Enter credentials to access AI Spam Detector
         """)
 
-        user = gr.Textbox(label="Username")
+        user = gr.Textbox(
+            label="Username"
+        )
 
         pwd = gr.Textbox(
             label="Password",
             type="password"
         )
 
-        login_btn = gr.Button("🔓 Login")
+        login_btn = gr.Button(
+            "🔓 Login"
+        )
 
-        login_msg = gr.Textbox(label="Status")
+        login_msg = gr.Textbox(
+            label="Status"
+        )
 
     # MAIN APP
-    with gr.Column(visible=False) as main_app:
+    with gr.Column(
+        visible=False
+    ) as main_app:
 
-        gr.Markdown("""
-        # 📧 AI Email Spam Detector
-        ### 🚀 Professional ML Project
-        """)
+        # HOME TAB
+        with gr.Tab("🏠 Home"):
 
-        msg = gr.Textbox(
-            lines=6,
-            placeholder="Enter email text here...",
-            label="Input Message"
-        )
+            gr.Markdown("""
+            # 📧 AI Email Spam Detector
 
-        btn = gr.Button("🔍 Check Email")
+            ## Detect Spam Emails Instantly
 
-        result = gr.Textbox(label="Prediction")
+            🚀 AI Powered Detection
 
-        badge = gr.Textbox(label="Status Badge")
+            🔒 Secure Email Analysis
 
-        confidence = gr.Textbox(
-            label="Confidence Score"
-        )
+            ⚡ Fast Prediction
 
-        # Predict button
-        btn.click(
-            predict_message,
-            inputs=msg,
-            outputs=[result, badge, confidence]
-        )
+            🎯 High Accuracy
+            """)
 
-        # Download history
-        gr.Markdown("## 📥 Download Prediction History")
+        # DETECTION TAB
+        with gr.Tab("📧 Detection"):
 
-        download_btn = gr.Button(
-            "⬇ Download CSV"
-        )
+            msg = gr.Textbox(
+                lines=6,
+                placeholder="Enter email text here...",
+                label="Input Message"
+            )
 
-        file_output = gr.File()
+            btn = gr.Button(
+                "🔍 Check Email"
+            )
 
-        download_btn.click(
-            download_history,
-            outputs=file_output
-        )
+            result = gr.Textbox(
+                label="Prediction"
+            )
 
-        # Chart section
-        gr.Markdown("## 📊 Spam vs Safe Graph")
+            badge = gr.Textbox(
+                label="Status Badge"
+            )
 
-        chart_btn = gr.Button(
-            "📈 Generate Chart"
-        )
+            confidence = gr.Textbox(
+                label="Confidence Score"
+            )
 
-        chart_output = gr.Image()
+            btn.click(
+                predict_message,
+                inputs=msg,
+                outputs=[
+                    result,
+                    badge,
+                    confidence
+                ]
+            )
 
-        chart_btn.click(
-            chart,
-            outputs=chart_output
-        )
+        # ANALYTICS TAB
+        with gr.Tab("📊 Analytics"):
+
+            gr.Markdown(
+                "## 📥 Download Prediction History"
+            )
+
+            download_btn = gr.Button(
+                "⬇ Download CSV"
+            )
+
+            file_output = gr.File()
+
+            download_btn.click(
+                download_history,
+                outputs=file_output
+            )
+
+            gr.Markdown(
+                "## 📊 Spam vs Safe Graph"
+            )
+
+            chart_btn = gr.Button(
+                "📈 Generate Chart"
+            )
+
+            chart_output = gr.Image()
+
+            chart_btn.click(
+                chart,
+                outputs=chart_output
+            )
+
+        # ABOUT TAB
+        with gr.Tab("ℹ️ About"):
+
+            gr.Markdown("""
+            # About Project
+
+            This project uses Machine Learning
+            and NLP techniques to classify
+            emails as Spam or Safe.
+
+            Features:
+            - Spam Detection
+            - Confidence Score
+            - History Download
+            - Analytics Dashboard
+            """)
+
+        # CONTACT TAB
+        with gr.Tab("📞 Contact"):
+
+            gr.Markdown("""
+            # Contact
+
+            Name: Lavanya
+
+            Email: lavanyapobbathi23@gmail.com
+
+            GitHub: https://github.com/Lavanyalavs23
+
+            LinkedIn: https://www.linkedin.com/in/lavanya-pobbathi-0352a3315?utm_source=share_via&utm_content=profile&utm_medium=member_android
+            """)
 
     # LOGIN BUTTON ACTION
     login_btn.click(
         login,
         inputs=[user, pwd],
-        outputs=[login_msg, login_page, main_app]
+        outputs=[
+            login_msg,
+            login_page,
+            main_app
+        ]
     )
 
 # RUN APP
